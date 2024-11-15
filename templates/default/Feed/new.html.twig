@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+{% form_theme form 'default/Form/_form.html.twig' %}
+
+{% block h_title %}
+    <h1>Feed creation</h1>
+{% endblock %}
+
+{% block body %}
+{{ form_start(form, {'attr': {'class': 'custom' }}) }}
+    {{ form_widget(form) }}
+
+    <button type="submit">Create</button>
+</form>
+{% endblock %}

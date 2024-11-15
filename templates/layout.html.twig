@@ -1,0 +1,25 @@
+{#{% extends "@SurvosVelzon/modern/base.html.twig" %}#}
+{% extends "@SurvosBootstrap/%s/base.html.twig"|format(theme_option('theme')) %}
+{#{% extends "@SurvosBootstrap/bootswatch/base.html.twig" %}#}
+
+
+{% block NAVMENU %}
+    <nav>
+            {% if app.user %}
+                <ul>
+                    <li><a href="{{ path('feed_dashboard') }}" class="{% if menu is defined and 'dashboard' == menu %}{% else %}secondary{% endif %}">Dashboard</a></li>
+                    <li><a href="{{ path('feed_homepage') }}" class="{% if menu is defined and 'feed' == menu %}{% else %}secondary{% endif %}">Feeds</a></li>
+                    <li><a href="{{ path('log_homepage') }}" class="{% if menu is defined and 'log' == menu %}{% else %}secondary{% endif %}">Feed logs</a></li>
+                    <li><a href="{{ path('feed_test') }}" class="{% if menu is defined and 'test' == menu %}{% else %}secondary{% endif %}">Test link</a></li>
+                    <li><a href="{{ path('feed_new') }}" class="{% if menu is defined and 'new' == menu %}{% else %}secondary{% endif %}">New feed</a></li>
+                    <li><a href="{{ path('logout') }}" class="secondary">Logout</a></li>
+                </ul>
+            {% else %}
+                <ul>
+                    <li><a href="{{ path('feed_test') }}" class="secondary">Test link</a></li>
+                    <li><a href="{{ path('login') }}" class="secondary">Login</a></li>
+                </ul>
+            {% endif %}
+        </nav>
+
+{% endblock %}

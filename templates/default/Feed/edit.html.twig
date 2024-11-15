@@ -1,0 +1,90 @@
+{% extends "base.html.twig" %}
+{% form_theme edit_form 'default/Form/_form.html.twig' %}
+
+{% block h_title %}
+    <hgroup>
+        <h1>{{ include('default/Feed/_favicon.html.twig', {'host': feed.host}) }} {{ feed.name }}'s feed</h1>
+        <h3>Feed information</h3>
+    </hgroup>
+{% endblock %}
+
+{% block body %}
+<div class="grid">
+    <div>
+        <h4>Edit</h4>
+        {{ form_start(edit_form, {'attr': {'class': 'custom' }}) }}
+            {{ form_widget(edit_form) }}
+
+            <div>
+                <label class="right inline">Created</label>
+                <input disabled="disabled" type="text" value="{{ feed.createdAt|date() }}" />
+            </div>
+
+            <div>
+                <label class="right inline">Updated</label>
+                <input disabled="disabled" type="text" value="{{ feed.updatedAt|date }}" />
+            </div>
+
+            <button type="submit" class="small button radius success">Save</button>
+        </form>
+    </div>
+    <div>
+        <h4>Information</h4>
+        <ul>
+            <li>
+                <span>Readable feed link</span>
+                <a href="{{ url('feed_xml', { 'slug': feed.slug }) }}" target="_blank">
+                    {{ url('feed_xml', { 'slug': feed.slug }) }}
+                </a>
+            </li>
+            <li>
+                <span>Last cached item</span>
+                {% if infos.last_item.publishedat is defined %}
+                    <a href="{{ path('item_homepage', { 'slug': feed.slug }) }}" class="time-ago" datetime="{{ infos.last_item.createdAt|date('r') }}">
+                        {{ infos.last_item.createdAt|date('d/m/y - H:i:s') }}
+                    </a>
+                {% else %}
+                    <span><i>Never</i></span>
+                {% endif %}
+            </li>
+            <li>
+                <span>Cached items</span>
+                <a href="{{ path('item_homepage', { 'slug': feed.slug }) }}">
+                    {{ feed.nbitems }} items
+                </a>
+            </li>
+            <li>
+                <span>Last log</span>
+                {% if infos.last_log.createdAt is defined %}
+                    <a href="{{ path('log_feed', { 'slug': feed.slug }) }}" class="time-ago" datetime="{{ infos.last_log.createdAt|date('r') }}">
+                        {{ infos.last_log.createdAt|date('d/m/y - H:i:s') }}
+                    </a>
+                {% else %}
+                    <span><i>Never</i></span>
+                {% endif %}
+            </li>
+            <li>
+                <span>Logs</span>
+                <a href="{{ path('log_feed', { 'slug': feed.slug }) }}">
+                    {{ infos.nb_logs }} items
+                </a>
+            </li>
+        </ul>
+
+        <h4 class="subheader">PubSubHubbub information</h4>
+        <iframe class="pubsubhubbub" src="https://pubsubhubbub.appspot.com/topic-details?hub.url={{ url('feed_xml', { 'slug': feed.slug }) }}"></iframe>
+    </div>
+</div>
+
+<div class="grid" id="preview-parsing" data-url="{{ url('item_preview_new', { 'slug': feed.slug }) }}">
+    <button type="button" class="secondary outline" title="It can take few seconds to load" data-parser="internal">Test with internal parser</button>
+    <button type="button" class="secondary outline" title="It can take few seconds to load" data-parser="external">Test with external parser</button>
+    <form class="delete_form" action="{{ path('feed_delete', { 'slug': feed.slug }) }}" method="post">
+        {{ form_rest(delete_form) }}
+        <button class="alert" type="submit">Delete</button>
+    </form>
+</div>
+
+<div id="preview-parsing-result"></div>
+
+{% endblock %}

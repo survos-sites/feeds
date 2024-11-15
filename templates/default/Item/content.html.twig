@@ -1,0 +1,21 @@
+{% if true == modal %}
+    <p><mark>Tips</mark>: if it looks bad, you should change the parser type and test again.</p>
+{% endif %}
+
+{% if url or title %}
+    <ul>
+        {% if url %}
+            <li><strong>Link</strong>: <a href="{{ url }}" target="_blank">{{ url }}</a></li>
+        {% endif %}
+        {% if title %}
+            <li><strong>Title</strong>: {{ title }}</li>
+        {% endif %}
+    </ul>
+{% endif %}
+
+<hr/>
+{% if content|length == 0 or (defaultContent is defined and true == defaultContent) %}
+    <p><mark>Warning</mark> We failed to make this item readable, the default text from the feed item will be displayed instead.</p>
+{% else %}
+    {{ content|raw }}
+{% endif %}

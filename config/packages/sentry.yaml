@@ -1,0 +1,33 @@
+when@prod:
+    sentry:
+        dsn: '%env(SENTRY_DSN)%'
+        options:
+            ignore_exceptions:
+                - 'Symfony\Component\ErrorHandler\Error\FatalError'
+                - 'Symfony\Component\Debug\Exception\FatalErrorException'
+                - 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException'
+        # If you are using Monolog, you also need these additional configuration and services to log the errors correctly:
+        # https://docs.sentry.io/platforms/php/guides/symfony/#monolog-integration
+        register_error_listener: false
+        register_error_handler: false
+
+        # this hooks into critical paths of the framework (and vendors) to perform
+        # automatic instrumentation (there might be some performance penalty)
+        # https://docs.sentry.io/platforms/php/guides/symfony/performance/instrumentation/automatic-instrumentation/
+        tracing:
+            enabled: false
+
+    monolog:
+        handlers:
+            sentry:
+                type: service
+                id: Sentry\Monolog\Handler
+                level: !php/const Monolog\Logger::ERROR
+                hub_id: Sentry\State\HubInterface
+
+    services:
+        Sentry\Monolog\Handler:
+            arguments:
+                $hub: '@Sentry\State\HubInterface'
+                $level: !php/const Monolog\Logger::ERROR
+                $bubble: false

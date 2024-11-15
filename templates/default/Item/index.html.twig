@@ -1,0 +1,87 @@
+{% extends "base.html.twig" %}
+
+{% block h_title %}
+    <hgroup>
+        <h1>{{ include('default/Feed/_favicon.html.twig', {'host': feed.host}) }} {{ feed.name }}'s items</h1>
+        <h3>{{ items|length }} cached items</h3>
+    </hgroup>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('modal') }}
+{% endblock %}
+
+{% block body %}
+<p>
+    <a href="{{ path('feed_edit', { 'slug': feed.slug }) }}">&lArr; Back to the feed</a>
+</p>
+
+{% if items|length > 0 %}
+    <table role="grid">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Published&nbsp;at</th>
+                <th>Created&nbsp;at</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td><div><a href="{{ item.link }}" target="_blank">{{ item.title }}</a></div></td>
+                <td>{{ item.publishedAt|date('d/m/y - H:i:s') }}</td>
+                <td>{{ item.createdAt|date('d/m/y - H:i:s') }}</td>
+                <td><button class="open-modal"
+                            data-target="modal-preview-item"
+                            data-url="{{ url('item_preview_cached', { 'id': item.id }) }}">
+
+                        preview</button>
+                        <a href="{{ path('item_preview_cached', {id: item.id}) }}">
+                            Open
+                        </a>
+
+                    <button
+                        hx-get="{{ path('item_preview_cached', {id: item.id}) }}"
+                        hx-target="#modals-here"
+                        hx-trigger="click"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modals-here"
+                        class="btn primary">Open Modal</button>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <form action="{{ path('item_delete_all', { 'slug': feed.slug }) }}" method="post" class="delete_form">
+        {{ form_widget(delete_all_form) }}
+        <button class="alert" type="submit">Delete all items</button>
+    </form>
+{% endif %}
+
+    <button
+        hx-get="/modal"
+        hx-target="#modals-here"
+        hx-trigger="click"
+        data-bs-toggle="modal"
+        data-bs-target="#modals-here"
+        class="btn primary">Open Modal</button>
+
+    <div id="modals-here"
+         class="modal modal-blur fade"
+         style="display: none"
+         aria-hidden="false"
+         tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+
+<dialog id="modal-preview-item">
+    <article></article>
+</dialog>
+
+{% endblock %}
