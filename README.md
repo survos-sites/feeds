@@ -1,10 +1,14 @@
-# f43.me
+# From f43.me
+
+This was a fork of the f43.me repo, but is modified for headline feeds and using a new version of graby
 
 ![CI](https://github.com/j0k3r/f43.me/workflows/CI/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/j0k3r/f43.me/badge.svg?branch=master&service=github)](https://coveralls.io/github/j0k3r/f43.me?branch=master)
 
+```bash
 composer config repositories.graby '{"type": "path", "url": "/home/tac/g/tacman/graby"}'
 composer req tacman/graby:*@dev
+```
 
 
 ## What's that?

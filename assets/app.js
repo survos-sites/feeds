@@ -1,9 +1,12 @@
+import './bootstrap.js';
 // import '@picocss/pico/css/pico.min.css';
 import 'htmx.org'
 
 import '@tabler/core'; // the js
 import '@tabler/core/dist/css/tabler.min.css'
 
+import 'simple-datatables';
+import 'simple-datatables/dist/style.min.css';
 
 import timeago from 'timeago.js';
 // import './styles/app.scss'

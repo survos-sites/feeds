@@ -1,16 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AppController!{% endblock %}
+{% block title %}Domain Rules{% endblock %}
 
 {% block body %}
 
-    <a href="{{ url }}" target="_blank">{{ url }}</a>
 
-    <h1>
-        {{ readability.title.textContent }}
-    </h1>
-    <p>
-        {{ readability.content.textContent|html_to_markdown }}
+    {% set columns = [
+        'name',
+        'testUrls'
+    ] %}
+<twig:simple_datatables :data="domains" :columns="columns">
+    <twig:block name="testUrls">
+        <ul class="list-unstyled">
+            {% for url in row.testUrls %}
+                <li>
+                    <a href="{{ url }}" target="_blank">{{ url }}</a>
+                </li>
+            {% endfor %}
 
-    </p>
+        </ul>
+    </twig:block>
+
+</twig:simple_datatables>
 {% endblock %}

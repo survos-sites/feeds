@@ -27,7 +27,7 @@ return [
         'version' => '4.0.2',
     ],
     'htmx.org' => [
-        'version' => '1.9.12',
+        'version' => '2.0.3',
     ],
     '@tabler/core' => [
         'version' => '1.0.0-beta21',
@@ -38,5 +38,15 @@ return [
     ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
+    ],
+    'simple-datatables' => [
+        'version' => '9.2.1',
+    ],
+    'simple-datatables/dist/style.min.css' => [
+        'version' => '9.2.1',
+        'type' => 'css',
+    ],
+    '@symfony/stimulus-bundle' => [
+        'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
 ];

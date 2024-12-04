@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AppController!{% endblock %}
+
+{% block body %}
+
+    <a href="{{ url }}" target="_blank">{{ url }}</a>
+
+    <h1>
+        {{ readability.title.textContent }}
+    </h1>
+    <p>
+        {{ readability.content.textContent|html_to_markdown }}
+
+    </p>
+{% endblock %}

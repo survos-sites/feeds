@@ -48,6 +48,7 @@ final class AppMenu implements KnpMenuHelperInterface
             $this->add($menu, $route);
         }
         $this->add($menu, 'survos_commands');
+        $this->add($menu, 'app_config_files');
 
         //        $this->add($menu, 'app_homepage');
         // for nested menus, don't add a route, just a label, then use it for the argument to addMenuItem

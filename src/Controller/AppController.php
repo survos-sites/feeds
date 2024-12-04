@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\DomainRepository;
 use Graby\SiteConfig\SiteConfig;
 use GrabySiteConfig\SiteConfig\Files;
 use Psr\Log\LoggerInterface;
@@ -13,9 +14,14 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class AppController extends AbstractController
 {
-    #[Route('/app_config', name: 'app_config_files')]
-    #[Template("app/index.html.twig")]
-    public function configFiles(LoggerInterface $logger): Response|array
+
+    public function __construct(private DomainRepository $domainRepository)
+    {
+    }
+
+    #[Route('/test_fetch', name: 'app_fetch')]
+    #[Template("app/fetch.html.twig")]
+    public function fetch(LoggerInterface $logger): Response|array
     {
 
         $url = 'http://www.medialens.org/index.php/alerts/alert-archive/alerts-2013/729-thatcher.html';
@@ -43,4 +49,14 @@ class AppController extends AbstractController
         ];
 
     }
+
+    #[Route('/config', name: 'app_config_files')]
+    #[Template("app/index.html.twig")]
+    public function config(LoggerInterface $logger): Response|array
+    {
+        return [
+            'domains' => $this->domainRepository->findAll(),
+        ];
+    }
+
 }

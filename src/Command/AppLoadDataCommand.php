@@ -32,10 +32,23 @@ final class AppLoadDataCommand extends InvokableServiceCommand
         int $limit = 50,
     ): int {
 
+        // first, get existing
+        $existing = [];
+        foreach ($this->entityManager->getRepository(Domain::class)->findAll() as $domain) {
+            $existing[$domain->getName()] = $domain;
+        }
+
         $files = Files::getFiles();
         $progressBar = new ProgressBar($io, count($files));
         $progressBar->start();
         foreach ($files as $fileName => $realPath) {
+            $fileName = str_replace('.txt', '', $fileName);
+
+            if (!$domain = $existing[$fileName]??null) {
+                $domain = (new Domain())
+                    ->setName($fileName);
+                $this->entityManager->persist($domain);
+            }
             $rules = file_get_contents($realPath);
             $repeatableKeys = ['body','strip','strip_id_or_class','test_url','test_contains'];
             $singleKeys = ['prune','tidy'];
@@ -66,12 +79,11 @@ final class AppLoadDataCommand extends InvokableServiceCommand
                     }
                 }
             }
-//            dd($data, $yaml);
-            $domain = (new Domain())
-                ->setName(basename($realPath))
+            $domain
                 ->setTestUrls($data['test_url'])
                 ->setRules($rules);
-            $this->entityManager->persist($domain);
+
+//            dd($data, $yaml);
             $progressBar->advance();
             if ($limit && $progressBar->getProgress() >= $limit) {
                 break;
