@@ -34,7 +34,7 @@
         "doctrine/orm": "^3.0",
         "gedmo/doctrine-extensions": "^3.6.0",
         "j0k3r/graby-site-config": "^1",
-        "j0k3r/php-imgur-api-client": "~4.0",
+        "j0k3r/php-imgur-api-client": "dev-master",
         "laminas/laminas-code": "^4.5",
         "league/html-to-markdown": "^5.1",
         "nelmio/cors-bundle": "^2.5",
@@ -129,7 +129,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": true,
-            "require": "^7.2"
+            "require": "^7.3"
         }
     },
     "repositories": {
