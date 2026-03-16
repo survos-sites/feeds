@@ -33,3 +33,5 @@
 /assets/vendor/
 ###< symfony/asset-mapper ###
 
+config.bat
+node_modules
