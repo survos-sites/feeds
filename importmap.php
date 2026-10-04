@@ -30,10 +30,10 @@ return [
         'version' => '2.0.3',
     ],
     '@tabler/core' => [
-        'version' => '1.0.0-beta21',
+        'version' => '1.6.1',
     ],
     '@tabler/core/dist/css/tabler.min.css' => [
-        'version' => '1.0.0-beta21',
+        'version' => '1.6.1',
         'type' => 'css',
     ],
     '@hotwired/stimulus' => [
